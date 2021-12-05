@@ -3,7 +3,6 @@ from werkzeug.utils import secure_filename
 import os
 import tempfile
 import shutil
-import img2pdf
 from PIL import Image
 
 
@@ -24,11 +23,8 @@ def upload_file():
         image_path = f"{dirpath}/{filename}"
         pdf_path = f"static/downloads/output.pdf"
         image = Image.open(image_path)
-        pdf_bytes = img2pdf.convert(image.filename)
-        file = open(pdf_path, "wb")
-        file.write(pdf_bytes)
-        image.close()
-        file.close()
+        im1 = image.convert('RGB')
+        im1.save(r'{0}'.format(pdf_path),save_all=True)
         print("Successfully made pdf file")
         button = "done"
         shutil.rmtree(dirpath)
